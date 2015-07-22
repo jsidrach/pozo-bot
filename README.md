@@ -17,6 +17,8 @@ License
 Commands
 --------
 List of all available commands:
+  * **/start** - enable the bot
+  * **/stop** - disable the bot
   * **/help** - display help text
   * **/add _id_** - subscribe to a subreddit
   * **/del _id_** - delete subscription to a subreddit
