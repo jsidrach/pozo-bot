@@ -53,6 +53,7 @@ def getWrongCommand():
 def commandsHelp():
     return ('The almighty @PozoBot!\n\nCommands available:\n'+
               '/help - For n00bs\n'+
+              '/list - List subscriptions\n'+
               '/add <id> - Subscribe to a subreddit\n'+
               '/del <id> - Delete subscription to a subreddit\n'+
               '/delall - Delete all subscriptions\n'+
