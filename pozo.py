@@ -136,6 +136,8 @@ def getRandomImg(chat_id):
         data = results.json()['data']
         if not data:
             raise ValueError('Empty gallery')
+        if len(data) == 0:
+            raise ValueError('Empty gallery')
         img_url = random.choice(data)['link']
         setTempImage(chat_id, img_url)
         return img_url
@@ -148,6 +150,8 @@ def getSubredditImg(chat_id, subreddit):
         results = requests.get(IMGUR_API + subreddit + '/time/' + str(random.randint(0,200)), headers={'Authorization': IMGUR_HEADER})
         data = results.json()['data']
         if not data:
+            raise ValueError('Empty gallery')
+        if len(data) == 0:
             raise ValueError('Empty gallery')
         img_url = random.choice(data)['link']
         setTempImage(chat_id, img_url)
