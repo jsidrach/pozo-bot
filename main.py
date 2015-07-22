@@ -127,13 +127,13 @@ class WebhookHandler(webapp2.RequestHandler):
                         reply('Subscriptions:\n\n'+'\n'.join(feed_list))
                 elif text.startswith('/del '):
                     subreddit = text[len('/del '):]
-                    pozo.delSubreddit(chat_id, subreddit, MAX_TRIES)
+                    pozo.delSubreddit(chat_id, subreddit)
                     reply('Subreddit {} deleted'.format(subreddit))
                 elif text == '/delall':
                     pozo.delAllSubreddits(chat_id)
                     reply('All subscriptions deleted')
                 elif text == '/pozo':
-                    pozo.getRandomImg(chat_id)
+                    pozo.getRandomImg(chat_id, MAX_TRIES)
                     reply(img=pozo.getTempImage(chat_id))
                 elif text.startswith('/pozo '):
                     subreddit = text[len('/pozo '):]
