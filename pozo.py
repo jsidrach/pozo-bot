@@ -129,10 +129,12 @@ def getRandomImg(chat_id):
     try:
         results = requests.get(IMGUR_API + random.choice(sf.subreddit_feeds), headers={'Authorization': IMGUR_HEADER})
         data = results.json()['data']
+        if not data:
+            raise ValueError('Empty gallery')
         img_url = random.choice(data)['link']
         setTempImage(chat_id, img_url)
         return img_url
-    except ValueError:
+    except ValueError,IndexError:
         raise ValueError('Empty gallery')
 
 # get a random image from a given subreddit
@@ -140,8 +142,10 @@ def getSubredditImg(chat_id, subreddit):
     try:
         results = requests.get(IMGUR_API + subreddit, headers={'Authorization': IMGUR_HEADER})
         data = results.json()['data']
+        if not data:
+            raise ValueError('Empty gallery')
         img_url = random.choice(data)['link']
         setTempImage(chat_id, img_url)
         return img_url
-    except ValueError:
+    except ValueError,IndexError:
         raise ValueError('Empty gallery')
