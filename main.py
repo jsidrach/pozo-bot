@@ -122,7 +122,7 @@ class WebhookHandler(webapp2.RequestHandler):
                     if not feed_list:
                         reply('No subscriptions yet')
                     else:
-                        reply('Subcriptions:\n\n'+'\n'.join(feed_list))
+                        reply('Subscriptions:\n\n'+'\n'.join(feed_list))
                 elif text.startswith('/del '):
                     subreddit = text[len('/del '):]
                     pozo.delSubreddit(chat_id, subreddit)
