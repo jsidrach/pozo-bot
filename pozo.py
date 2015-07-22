@@ -137,14 +137,14 @@ def getRandomImg(chat_id, tries):
         results = requests.get(IMGUR_API + random.choice(sf.subreddit_feeds) + '/time/' + str(random.randint(0,200)), headers={'Authorization': IMGUR_HEADER})
         data = results.json()['data']
         if not data:
-            getRandomImg(chat_id, tries-1)
+            return getRandomImg(chat_id, tries-1)
         if len(data) == 0:
-            getRandomImg(chat_id, tries-1)
+            return getRandomImg(chat_id, tries-1)
         img_url = random.choice(data)['link']
         setTempImage(chat_id, img_url)
         return img_url
     except ValueError,IndexError:
-        getRandomImg(chat_id, tries-1)
+        return getRandomImg(chat_id, tries-1)
 
 # get a random image from a given subreddit
 def getSubredditImg(chat_id, subreddit, tries):
@@ -154,11 +154,11 @@ def getSubredditImg(chat_id, subreddit, tries):
         results = requests.get(IMGUR_API + subreddit + '/time/' + str(random.randint(0,200)), headers={'Authorization': IMGUR_HEADER})
         data = results.json()['data']
         if not data:
-            getSubredditImg(chat_id, subreddit, tries-1)
+            return getSubredditImg(chat_id, subreddit, tries-1)
         if len(data) == 0:
-            getSubredditImg(chat_id, subreddit, tries-1)
+            return getSubredditImg(chat_id, subreddit, tries-1)
         img_url = random.choice(data)['link']
         setTempImage(chat_id, img_url)
         return img_url
     except ValueError,IndexError:
-        getSubredditImg(chat_id, subreddit, tries-1)
+        return getSubredditImg(chat_id, subreddit, tries-1)
