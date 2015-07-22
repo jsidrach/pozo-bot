@@ -109,6 +109,11 @@ def addSubreddit(chat_id, subreddit):
         sf.subreddit_feeds.append(subreddit)
         sf.put()
 
+# get list of subscriptions
+def getSubreddits(chat_id):
+    sf = SubredditFeeds.get_or_insert(str(chat_id))
+    return sf.subreddit_feeds
+
 # delete subscription
 def delSubreddit(chat_id, subreddit):
     sf = SubredditFeeds.get_or_insert(str(chat_id))
@@ -127,7 +132,7 @@ def getRandomImg(chat_id):
     if not sf.subreddit_feeds:
         raise ValueError('No feeds yet')
     try:
-        results = requests.get(IMGUR_API + random.choice(sf.subreddit_feeds), headers={'Authorization': IMGUR_HEADER})
+        results = requests.get(IMGUR_API + random.choice(sf.subreddit_feeds) + '/time/' + str(random.randint(0,200)), headers={'Authorization': IMGUR_HEADER})
         data = results.json()['data']
         if not data:
             raise ValueError('Empty gallery')
@@ -140,7 +145,7 @@ def getRandomImg(chat_id):
 # get a random image from a given subreddit
 def getSubredditImg(chat_id, subreddit):
     try:
-        results = requests.get(IMGUR_API + subreddit, headers={'Authorization': IMGUR_HEADER})
+        results = requests.get(IMGUR_API + subreddit + '/time/' + str(random.randint(0,200)), headers={'Authorization': IMGUR_HEADER})
         data = results.json()['data']
         if not data:
             raise ValueError('Empty gallery')
