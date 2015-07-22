@@ -7,7 +7,7 @@ Tech
 
 PozoBot uses a number of open source projects to work properly:
 
-* [telebot](hhttps://github.com/yukuku/telebot/) - Telegram Bot starter kit - base work for this project
+* [telebot](https://github.com/yukuku/telebot/) - Telegram Bot starter kit - base work for this project
 * [requests](http://docs.python-requests.org/en/latest/) - HTTP library in python
 
 License
@@ -18,11 +18,11 @@ Commands
 --------
 List of all available commands:
   * **/help** - display help text
-  * **/add *<id>*** - subscribe to a subreddit
-  * **/del *<id>*** - delete subscription to a subreddit
+  * **/add _id_** - subscribe to a subreddit
+  * **/del _id_** - delete subscription to a subreddit
   * **/delall** - delete all subscriptions
   * **/pozo** - get a random image from a random subscription
-  * **/pozo *<id>*** - get a random image from a given subreddit
+  * **/pozo _id_** - get a random image from a given subreddit
 
 Instructions
 ------------
