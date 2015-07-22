@@ -127,34 +127,38 @@ def delAllSubreddits(chat_id):
     sf.put()
 
 # get a random image from subscriptions
-def getRandomImg(chat_id):
+def getRandomImg(chat_id, tries):
     sf = SubredditFeeds.get_or_insert(str(chat_id))
     if not sf.subreddit_feeds:
         raise ValueError('No feeds yet')
+    if tries <= 0:
+        raise ValueError('Empty gallery')
     try:
         results = requests.get(IMGUR_API + random.choice(sf.subreddit_feeds) + '/time/' + str(random.randint(0,200)), headers={'Authorization': IMGUR_HEADER})
         data = results.json()['data']
         if not data:
-            raise ValueError('Empty gallery')
+            getRandomImg(chat_id, tries--)
         if len(data) == 0:
-            raise ValueError('Empty gallery')
+            getRandomImg(chat_id, tries--)
         img_url = random.choice(data)['link']
         setTempImage(chat_id, img_url)
         return img_url
     except ValueError,IndexError:
-        raise ValueError('Empty gallery')
+        getRandomImg(chat_id, tries--)
 
 # get a random image from a given subreddit
-def getSubredditImg(chat_id, subreddit):
+def getSubredditImg(chat_id, subreddit, tries):
+    if tries <= 0:
+        raise ValueError('Empty gallery')
     try:
         results = requests.get(IMGUR_API + subreddit + '/time/' + str(random.randint(0,200)), headers={'Authorization': IMGUR_HEADER})
         data = results.json()['data']
         if not data:
-            raise ValueError('Empty gallery')
+            getSubredditImg(chat_id, subreddit, tries--)
         if len(data) == 0:
-            raise ValueError('Empty gallery')
+            getSubredditImg(chat_id, subreddit, tries--)
         img_url = random.choice(data)['link']
         setTempImage(chat_id, img_url)
         return img_url
     except ValueError,IndexError:
-        raise ValueError('Empty gallery')
+        getSubredditImg(chat_id, subreddit, tries--)

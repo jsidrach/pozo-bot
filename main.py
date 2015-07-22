@@ -25,8 +25,10 @@ config.read('pozo.cfg')
 # global constants (read from configuration file)
 # Base telegram bot URL
 BASE_URL = 'https://api.telegram.org/bot' + config.get('telegram', 'TOKEN', 0) + '/'
-# ALlowed chats
+# allowed chats
 ALLOWED_CHATS = config.get('chat', 'ALLOWED_IDS').split(',')
+# max API tries
+MAX_TRIES = 16
 
 # ================================
 
@@ -125,7 +127,7 @@ class WebhookHandler(webapp2.RequestHandler):
                         reply('Subscriptions:\n\n'+'\n'.join(feed_list))
                 elif text.startswith('/del '):
                     subreddit = text[len('/del '):]
-                    pozo.delSubreddit(chat_id, subreddit)
+                    pozo.delSubreddit(chat_id, subreddit, MAX_TRIES)
                     reply('Subreddit {} deleted'.format(subreddit))
                 elif text == '/delall':
                     pozo.delAllSubreddits(chat_id)
@@ -135,13 +137,12 @@ class WebhookHandler(webapp2.RequestHandler):
                     reply(img=pozo.getTempImage(chat_id))
                 elif text.startswith('/pozo '):
                     subreddit = text[len('/pozo '):]
-                    pozo.getSubredditImg(chat_id, subreddit)
+                    pozo.getSubredditImg(chat_id, subreddit, MAX_TRIES)
                     reply(img=pozo.getTempImage(chat_id))
                 elif text.startswith('/'):
                     wrongCommand()
-            except ValueError as e:
+            except Exception as e:
                 reply(str(e))
-                wrongCommand()
 
 app = webapp2.WSGIApplication([
     ('/me', MeHandler),
