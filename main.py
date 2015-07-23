@@ -133,12 +133,10 @@ class WebhookHandler(webapp2.RequestHandler):
                     pozo.delAllSubreddits(chat_id)
                     reply('All subscriptions deleted')
                 elif text == '/pozo':
-                    pozo.getRandomImg(chat_id, MAX_TRIES)
-                    reply(img=pozo.getTempImage(chat_id))
+                    reply(img=pozo.getRandomImg(chat_id, MAX_TRIES))
                 elif text.startswith('/pozo '):
                     subreddit = text[len('/pozo '):]
-                    pozo.getSubredditImg(chat_id, subreddit, MAX_TRIES)
-                    reply(img=pozo.getTempImage(chat_id))
+                    reply(img=pozo.getSubredditImg(chat_id, subreddit, MAX_TRIES))
                 elif text.startswith('/'):
                     wrongCommand()
             except ValueError as e:

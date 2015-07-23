@@ -82,7 +82,7 @@ Instructions
 
 20. Download Google App Engine SDK for Python from https://cloud.google.com/appengine/downloads and install it.
 
-21. Deploy the application
+21. Deploy the application `appcfg.py --oauth2 update /path/to/pozo-bot`
 
 22. Open your browser and go to https://`project-id`.appspot.com/me (replace `project-id` with the Project ID you set on step 16).
 
