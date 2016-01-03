@@ -29,6 +29,8 @@ BASE_URL = 'https://api.telegram.org/bot' + config.get('telegram', 'TOKEN', 0) +
 ALLOWED_CHATS = config.get('chat', 'ALLOWED_IDS').split(',')
 # max API tries
 MAX_TRIES = 16
+# Bot name
+BOT_NAME = config.get('telegram', 'NAME')
 
 # ================================
 
@@ -103,39 +105,39 @@ class WebhookHandler(webapp2.RequestHandler):
             return
 
         # Enable bot
-        if text == '/start':
+        if (text == '/start') or (text == '/start@'+BOT_NAME):
             reply('PozoBot enabled ' + u'\U0001F60F')
             pozo.setEnabled(chat_id, True)
         # Disable bot
-        elif text == '/stop':
+        elif (text == '/stop') or (text == '/stop@'+BOT_NAME):
             reply('PozoBot disabled ' + u'\U0001F632')
             pozo.setEnabled(chat_id, False)
         # Commands
         elif pozo.getEnabled(chat_id):
             try:
-                if text == '/help':
+                if (text == '/help') or (text == 'help@'+BOT_NAME):
                     reply(pozo.commandsHelp())
                 elif text.startswith('/add '):
-                    subreddit = text[len('/add '):]
+                    subreddit = text[len('/add '):].rsplit('@'+BOT_NAME, 1)[0]
                     pozo.addSubreddit(chat_id, subreddit)
                     reply('Subreddit {} added'.format(subreddit))
-                elif text == '/list':
+                elif (text == '/list') or (text == '/list@'+BOT_NAME):
                     feed_list = pozo.getSubreddits(chat_id)
                     if not feed_list:
                         reply('No subscriptions yet')
                     else:
                         reply('Subscriptions:\n\n'+'\n'.join(feed_list))
                 elif text.startswith('/del '):
-                    subreddit = text[len('/del '):]
+                    subreddit = text[len('/del '):].rsplit('@'+BOT_NAME, 1)[0]
                     pozo.delSubreddit(chat_id, subreddit)
                     reply('Subreddit {} deleted'.format(subreddit))
-                elif text == '/delall':
+                elif (text == '/delall') or (text == '/delall@'+BOT_NAME):
                     pozo.delAllSubreddits(chat_id)
                     reply('All subscriptions deleted')
-                elif text == '/pozo':
+                elif (text == '/pozo') or (text == '/pozo@'+BOT_NAME):
                     reply(img=pozo.getRandomImg(chat_id, MAX_TRIES))
                 elif text.startswith('/pozo '):
-                    subreddit = text[len('/pozo '):]
+                    subreddit = text[len('/pozo '):].rsplit('@'+BOT_NAME, 1)[0]
                     reply(img=pozo.getSubredditImg(chat_id, subreddit, MAX_TRIES))
                 elif text.startswith('/'):
                     wrongCommand()
