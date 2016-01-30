@@ -141,10 +141,8 @@ class WebhookHandler(webapp2.RequestHandler):
                     reply(img=pozo.getSubredditImg(chat_id, subreddit, MAX_TRIES))
                 elif text.startswith('/'):
                     wrongCommand()
-            except ValueError as e:
+            except Exception as e:
                 reply(str(e))
-            except Exception:
-                reply('... sorry, I\'m useless right now ' + u'\U0001F625')
 
 app = webapp2.WSGIApplication([
     ('/me', MeHandler),

@@ -15,6 +15,9 @@ from google.appengine.api import urlfetch
 from google.appengine.ext import ndb
 import webapp2
 
+# Timeout for fetch
+urlfetch.set_default_fetch_deadline(60)
+
 # definitions
 WRONG_COMMAND = [
                     'Your command is wrong and you should feel bad about it',
@@ -120,18 +123,19 @@ def getRandomImg(chat_id, tries):
     if tries <= 0:
         raise ValueError('Empty gallery')
     results = requests.get(IMGUR_API + random.choice(sf.subreddit_feeds) + '/time/' + str(random.randint(0, MAX_PAGES)), headers={'Authorization': IMGUR_HEADER})
-    data = results.json()['data']
-    if not data:
-        return getRandomImg(chat_id, tries-1)
-    if len(data) == 0:
-        return getRandomImg(chat_id, tries-1)
     try:
+        data = results.json()['data']
+        if not data:
+            return getRandomImg(chat_id, tries-1)
+        if len(data) == 0:
+            return getRandomImg(chat_id, tries-1)
         img_url = random.choice(data)['link']
         return urlfetch.Fetch(img_url).content
-    except ValueError:
-        return getRandomImg(chat_id, tries-1)
-    except (requests.exceptions.RequestException, IndexError, socket.timeout):
-        raise ValueError('... sorry, I\'m useless right now ' + u'\U0001F625')
+    except Exception:
+        if tries <= 0:
+            raise ValueError('... sorry, I\'m so useless right now ' + u'\U0001F625')
+        else:
+            return getRandomImg(chat_id, tries-1)
 
 # get a random image from a given subreddit
 def getSubredditImg(chat_id, subreddit, tries):
@@ -139,14 +143,15 @@ def getSubredditImg(chat_id, subreddit, tries):
         raise ValueError('Empty gallery')
     results = requests.get(IMGUR_API + subreddit + '/time/' + str(random.randint(0, MAX_PAGES)), headers={'Authorization': IMGUR_HEADER})
     data = results.json()['data']
-    if not data:
-        return getSubredditImg(chat_id, subreddit, tries-1)
-    if len(data) == 0:
-        return getSubredditImg(chat_id, subreddit, tries-1)
     try:
+        if not data:
+            return getSubredditImg(chat_id, subreddit, tries-1)
+        if len(data) == 0:
+            return getSubredditImg(chat_id, subreddit, tries-1)
         img_url = random.choice(data)['link']
         return urlfetch.Fetch(img_url).content
-    except ValueError:
-        return getRandomImg(chat_id, tries-1)
-    except (requests.exceptions.RequestException, IndexError, socket.timeout):
-        raise ValueError('... sorry, I\'m useless right now ' + u'\U0001F625')
+    except Exception:
+        if tries <= 0:
+            raise ValueError('... sorry, I\'m so useless right now ' + u'\U0001F625')
+        else:
+            return getRandomImg(chat_id, tries-1)
