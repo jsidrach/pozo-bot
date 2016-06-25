@@ -1,14 +1,6 @@
 # PozoBot
 
-Small Telegram bot that lets the user subscribe to imgur subreddit galleries to retrieve random images. Compatible with [Google App Engine](https://cloud.google.com/appengine/docs).
-
-Tech
-----
-
-PozoBot uses a number of open source projects to work properly:
-
-* [telebot](https://github.com/yukuku/telebot/) - Telegram Bot starter kit - base work for this project
-* [requests](http://docs.python-requests.org/en/latest/) - HTTP library in python
+Telegram Bot that lets the user subscribe to subreddit galleries to retrieve random static images. Compatible with [Google App Engine](https://cloud.google.com/appengine/docs).
 
 License
 -------
@@ -17,12 +9,10 @@ License
 Commands
 --------
 List of all available commands:
-  * **/start** - enable the bot
-  * **/stop** - disable the bot
   * **/help** - display help text
   * **/list** - list subscriptions
   * **/add _id_** - subscribe to a subreddit
-  * **/del _id_** - delete subscription to a subreddit
+  * **/del _id_** - delete the subscription to a subreddit
   * **/delall** - delete all subscriptions
   * **/pozo** - get a random image from a random subscription
   * **/pozo _id_** - get a random image from a given subreddit
@@ -78,7 +68,7 @@ Instructions
 
 18. Copy `app.yaml.example` into `app.yaml`. Open the file and change the `YOUR_APP_ID_HERE` to the Project ID you set on step 16, and save the file.
 
-19. Copy `pozo.cfg.example` into `pozo.cfg`. Open the file and change the `YOUR_TELEGRAM_TOKEN` to the token you get from @botfather at step 6. Edit also the `CLIENT_ID` to the imgur API Client-ID ([see here](https://api.imgur.com/)). Finally, set the `ALLOWED_IDS` to a comma-separated list of allowed chat ids.
+19. Copy `pozo.cfg.example` into `pozo.cfg`. Open the file and change the `YOUR_TELEGRAM_TOKEN` to the token you get from @botfather at step 6.
 
 20. Download Google App Engine SDK for Python from https://cloud.google.com/appengine/downloads and install it.
 
@@ -92,6 +82,4 @@ Instructions
 
 25. You should see `Webhook was set`.
 
-26. Open your Telegram client and send the message `/start` to your bot. (type @`your-bot-username` at the search field to initiate the conversation)
-
-27. Try sending more messages and you should see replies from the bot. Mission completed!
+26. Open your Telegram client and send any to your bot (type @`your-bot-username` at the search field to initiate the conversation).

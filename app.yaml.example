@@ -4,10 +4,6 @@ api_version: 1
 threadsafe: yes
 
 handlers:
-- url: /favicon\.ico
-  static_files: favicon.ico
-  upload: favicon\.ico
-
 - url: /set_webhook
   login: admin
   script: main.app
@@ -17,6 +13,6 @@ handlers:
 
 libraries:
 - name: webapp2
-  version: "2.5.2"
+  version: latest
 - name: PIL
   version: latest
