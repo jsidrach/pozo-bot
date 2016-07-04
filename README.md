@@ -1,6 +1,6 @@
 # PozoBot
 
-Telegram Bot that lets the user subscribe to subreddit galleries to retrieve random static images. Powered by [Google App Engine](https://cloud.google.com/appengine/docs).
+Telegram Bot that lets the user subscribe to subreddit galleries to retrieve random static images from them. Powered by [Google App Engine](https://cloud.google.com/appengine/docs).
 
 License
 -------
